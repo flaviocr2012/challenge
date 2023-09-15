@@ -1,4 +1,4 @@
-package models;
+package com.voting.challenge.models;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

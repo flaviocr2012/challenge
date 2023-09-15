@@ -1,6 +1,6 @@
-package models;
+package com.voting.challenge.models;
 
-import enums.VoteStatus;
+import com.voting.challenge.enums.VoteStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,12 +14,8 @@ import lombok.NoArgsConstructor;
 @Builder
 public class Vote {
 
-
+    @EmbeddedId
     private VoteId id;
-
-    @OneToOne
-    @JoinColumn(name = "associate_id")
-    private Associate associate;
 
     @Enumerated(EnumType.STRING)
     private VoteStatus voteStatus;

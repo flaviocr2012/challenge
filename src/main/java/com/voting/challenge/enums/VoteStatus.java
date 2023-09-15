@@ -1,4 +1,4 @@
-package enums;
+package com.voting.challenge.enums;
 
 public enum VoteStatus {
 
