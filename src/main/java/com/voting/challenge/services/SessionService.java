@@ -38,18 +38,24 @@ public class SessionService {
 
     private Map<VoteStatus, Long> countVotes() {
         var votingBox = new HashMap<VoteStatus, Long>();
+        validateVotes(votes, votingBox);
+        return votingBox;
+    }
 
+
+    private void validateVotes(List<Vote> votes, Map<VoteStatus, Long> votingBox) {
         votes.forEach(vote -> {
-            if (vote.getVoteStatus().equals(VoteStatus.YES)) {
-                var yesVotes = votingBox.getOrDefault(VoteStatus.YES, 0L);
-                votingBox.put(VoteStatus.YES, yesVotes + 1L);
-            } else {
-                var noVotes = votingBox.getOrDefault(VoteStatus.NO, 0L);
-                votingBox.put(VoteStatus.NO, noVotes + 1L);
+            switch (vote.getVoteStatus()) {
+                case YES:
+                    var yesVotes = votingBox.getOrDefault(VoteStatus.YES, 0L);
+                    votingBox.put(VoteStatus.YES, yesVotes + 1L);
+                    break;
+                case NO:
+                    var noVotes = votingBox.getOrDefault(VoteStatus.NO, 0L);
+                    votingBox.put(VoteStatus.NO, noVotes + 1L);
+                    break;
             }
         });
-
-        return votingBox;
     }
 
 
