@@ -8,15 +8,11 @@ import lombok.*;
 import java.time.LocalDateTime;
 
 
-@Builder
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-public class SessionRequest {
+public record SessionRequest() {
 
     @JsonFormat(pattern = "dd/MM/yyyy hh:mm:ss")
-    private LocalDateTime start;
+    private static LocalDateTime start;
 
     @JsonProperty(value = "id_session")
-    private Long IdSession;
+    private static Long IdSession;
 }

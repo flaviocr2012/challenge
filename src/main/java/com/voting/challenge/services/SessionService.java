@@ -1,8 +1,6 @@
 package com.voting.challenge.services;
 
-import com.voting.challenge.dtos.AgendaRequest;
 import com.voting.challenge.dtos.SessionRequest;
-import com.voting.challenge.models.Agenda;
 import com.voting.challenge.models.Session;
 import com.voting.challenge.repositories.SessionRepository;
 import org.modelmapper.ModelMapper;
