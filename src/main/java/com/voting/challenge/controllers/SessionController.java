@@ -1,6 +1,7 @@
 package com.voting.challenge.controllers;
 
 import com.voting.challenge.dtos.SessionRequest;
+import com.voting.challenge.enums.VoteStatus;
 import com.voting.challenge.models.Session;
 import com.voting.challenge.services.SessionService;
 import org.apache.coyote.Response;
@@ -26,5 +27,13 @@ public class SessionController {
             @RequestBody SessionRequest sessionRequest
             ){
         return sessionService.createSession(sessionRequest);
+    }
+
+    @GetMapping("/agendaId")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public ResponseEntity<VoteStatus>
+    getVotingResult(@PathVariable Long agendaId) {
+        return
+        sessionService.retrieveVotingResult(agendaId);
     }
 }
