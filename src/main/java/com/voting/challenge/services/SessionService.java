@@ -1,11 +1,12 @@
 package com.voting.challenge.services;
 
+import com.voting.challenge.constants.ExceptionConstant;
 import com.voting.challenge.dtos.SessionRequest;
 import com.voting.challenge.enums.VoteStatus;
+import com.voting.challenge.exceptions.AgendaException;
 import com.voting.challenge.models.Session;
 import com.voting.challenge.models.Vote;
 import com.voting.challenge.repositories.SessionRepository;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
@@ -30,7 +31,7 @@ public class SessionService {
 
     public ResponseEntity<VoteStatus> retrieveVotingResult(Long agendaId) {
         var session = sessionRepository.findByAgendaId(agendaId)
-                .orElseThrow(() -> new EntityNotFoundException("Could not find agenda"));
+                .orElseThrow(() -> new AgendaException(ExceptionConstant.AGENDA_NOT_FOUND));
 
         var winner = determineWinningVoteStatus(session.getVotes());
         return ResponseEntity.ok(winner);

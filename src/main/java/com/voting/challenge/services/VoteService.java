@@ -1,12 +1,14 @@
 package com.voting.challenge.services;
 
+import com.voting.challenge.constants.ExceptionConstant;
 import com.voting.challenge.dtos.VoteRequest;
+import com.voting.challenge.exceptions.SessionException;
+import com.voting.challenge.exceptions.VoteException;
 import com.voting.challenge.models.Session;
 import com.voting.challenge.models.Vote;
 import com.voting.challenge.models.VoteId;
 import com.voting.challenge.repositories.SessionRepository;
 import com.voting.challenge.repositories.VoteRepository;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -33,7 +35,7 @@ public class VoteService {
     private void validateVoteRequest(VoteRequest voteRequest) {
         if (voteRepository.existsByAssociatedIdAndSessionId(
                 voteRequest.getAssociateId(), voteRequest.getSessionId())) {
-            throw new IllegalStateException("Vote has already been registered");
+            throw new VoteException(ExceptionConstant.VOTE_NOT_FOUND);
         }
     }
 
@@ -53,7 +55,7 @@ public class VoteService {
 
     private Session getSession(VoteRequest voteRequest) {
         return sessionRepository.findById(voteRequest.getSessionId())
-                .orElseThrow(() -> new EntityNotFoundException("Could not find session"));
+                .orElseThrow(() -> new SessionException(ExceptionConstant.SESSION_NOT_FOUND));
     }
 }
 
