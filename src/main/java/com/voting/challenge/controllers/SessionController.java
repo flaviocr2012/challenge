@@ -4,6 +4,7 @@ import com.voting.challenge.dtos.SessionRequest;
 import com.voting.challenge.enums.VoteStatus;
 import com.voting.challenge.models.Session;
 import com.voting.challenge.services.SessionService;
+import com.voting.challenge.services.WinnerService;
 import jakarta.validation.Valid;
 import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,10 +17,13 @@ import org.springframework.web.bind.annotation.*;
 public class SessionController {
 
     private final SessionService sessionService;
+    private final WinnerService winnerService;
+
 
     @Autowired
-    public SessionController(SessionService sessionService) {
+    public SessionController(SessionService sessionService, WinnerService winnerService) {
         this.sessionService = sessionService;
+        this.winnerService = winnerService;
     }
 
     @PostMapping
@@ -34,7 +38,6 @@ public class SessionController {
     @ResponseStatus(HttpStatus.ACCEPTED)
     public ResponseEntity<VoteStatus>
     getVotingResult(@PathVariable Long agendaId) {
-        return
-        sessionService.retrieveVotingResult(agendaId);
+        return winnerService.retrieveVotingResult(agendaId);
     }
 }

@@ -29,37 +29,9 @@ public class SessionService {
                 .orElse(ResponseEntity.badRequest().build());
     }
 
-    public ResponseEntity<VoteStatus> retrieveVotingResult(Long agendaId) {
-        var session = sessionRepository.findByAgendaId(agendaId)
-                .orElseThrow(() -> new AgendaException(ExceptionConstant.AGENDA_NOT_FOUND));
-
-        var winner = determineWinningVoteStatus(session.getVotes());
-        return ResponseEntity.ok(winner);
-    }
-
-    public VoteStatus determineWinningVoteStatus(List<Vote> votes) {
-        Map<VoteStatus, Long> totalVotes = countVotes(votes);
-        return totalVotes.get(VoteStatus.YES).compareTo(totalVotes.get(VoteStatus.NO)) >= 1 ? VoteStatus.YES : VoteStatus.NO;
-    }
 
     private Session mapSession(SessionRequest sessionRequest) {
         return modelMapper.map(sessionRequest, Session.class);
     }
 
-    private Map<VoteStatus, Long> countVotes(List<Vote> votes) {
-        Map<VoteStatus, Long> votingBox = new HashMap<>();
-        votes.forEach(vote -> {
-            switch (vote.getVoteStatus()) {
-                case YES:
-                    final long yesVotesCount = votingBox.getOrDefault(VoteStatus.YES, 0L);
-                    votingBox.put(VoteStatus.YES, yesVotesCount + 1L);
-                    break;
-                case NO:
-                    final long noVotesCount = votingBox.getOrDefault(VoteStatus.NO, 0L);
-                    votingBox.put(VoteStatus.NO, noVotesCount + 1L);
-                    break;
-            }
-        });
-        return votingBox;
-    }
 }
