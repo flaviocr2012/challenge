@@ -8,21 +8,17 @@ import com.voting.challenge.repositories.SessionRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class SessionService {
 
     private final SessionRepository sessionRepository;
-
     private final ModelMapper modelMapper;
-    private final List<Vote> votes = new ArrayList<>();
 
     public ResponseEntity<Session> createSession(SessionRequest sessionRequest) {
         return Optional.ofNullable(sessionRequest)
@@ -32,45 +28,37 @@ public class SessionService {
                 .orElse(ResponseEntity.badRequest().build());
     }
 
+    public ResponseEntity<VoteStatus> retrieveVotingResult(Long agendaId) {
+        var session = sessionRepository.findByAgendaId(agendaId)
+                .orElseThrow(() -> new EntityNotFoundException("Could not find agenda"));
+
+        var winner = determineWinningVoteStatus(session.getVotes());
+        return ResponseEntity.ok(winner);
+    }
+
+    public VoteStatus determineWinningVoteStatus(List<Vote> votes) {
+        Map<VoteStatus, Long> totalVotes = countVotes(votes);
+        return totalVotes.get(VoteStatus.YES).compareTo(totalVotes.get(VoteStatus.NO)) >= 1 ? VoteStatus.YES : VoteStatus.NO;
+    }
+
     private Session mapSession(SessionRequest sessionRequest) {
         return modelMapper.map(sessionRequest, Session.class);
     }
 
-    private Map<VoteStatus, Long> countVotes() {
-        var votingBox = new HashMap<VoteStatus, Long>();
-        validateVotes(votes, votingBox);
-        return votingBox;
-    }
-
-
-    private void validateVotes(List<Vote> votes, Map<VoteStatus, Long> votingBox) {
+    private Map<VoteStatus, Long> countVotes(List<Vote> votes) {
+        Map<VoteStatus, Long> votingBox = new HashMap<>();
         votes.forEach(vote -> {
             switch (vote.getVoteStatus()) {
                 case YES:
-                    var yesVotes = votingBox.getOrDefault(VoteStatus.YES, 0L);
-                    votingBox.put(VoteStatus.YES, yesVotes + 1L);
+                    final long yesVotesCount = votingBox.getOrDefault(VoteStatus.YES, 0L);
+                    votingBox.put(VoteStatus.YES, yesVotesCount + 1L);
                     break;
                 case NO:
-                    var noVotes = votingBox.getOrDefault(VoteStatus.NO, 0L);
-                    votingBox.put(VoteStatus.NO, noVotes + 1L);
+                    final long noVotesCount = votingBox.getOrDefault(VoteStatus.NO, 0L);
+                    votingBox.put(VoteStatus.NO, noVotesCount + 1L);
                     break;
             }
         });
+        return votingBox;
     }
-
-
-    public ResponseEntity<VoteStatus> retrieveVotingResult(Long agendaId) {
-        sessionRepository.findByAgendaId(agendaId).orElseThrow(()
-                -> new EntityNotFoundException(" Could not find agenda"));
-
-        return ResponseEntity.ok(retrieveWinner());
-
-    }
-
-    public VoteStatus retrieveWinner() {
-        Map<VoteStatus, Long> totalVotes = countVotes();
-        return totalVotes.get(VoteStatus.YES).compareTo(
-                totalVotes.get(VoteStatus.NO)) >= 1 ? VoteStatus.YES : VoteStatus.NO;
-    }
-
 }

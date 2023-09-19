@@ -21,10 +21,10 @@ public class Session {
     private Long id;
 
     @OneToOne
-    @JoinColumn(name = "agenda_id")
+    @JoinColumn(name = "agenda_id", unique = true)
     private Agenda agenda;
 
-    @OneToMany(mappedBy = "session")
+    @OneToMany(mappedBy = "session", fetch = FetchType.LAZY)
     private List<Vote> votes;
 
 
