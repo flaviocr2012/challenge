@@ -19,8 +19,10 @@ public class VoteService {
     private final SessionRepository sessionRepository;
 
     public ResponseEntity<Vote> registerVoteAndSession(VoteRequest voteRequest) {
-        var voteId = createVoteId(voteRequest);
-        var vote = createVote(voteRequest, voteId);
+        validateVoteRequest(voteRequest);
+
+        var voteId = registerVoteId(voteRequest);
+        var vote = registerVote(voteRequest, voteId);
         var session = getSession(voteRequest);
         vote.setSession(session);
 
@@ -28,14 +30,21 @@ public class VoteService {
         return ResponseEntity.ok(savedVote);
     }
 
-    private VoteId createVoteId(VoteRequest voteRequest) {
+    private void validateVoteRequest(VoteRequest voteRequest) {
+        if (voteRepository.existsByAssociatedIdAndSessionId(
+                voteRequest.getAssociateId(), voteRequest.getSessionId())) {
+            throw new IllegalStateException("Vote has already been registered");
+        }
+    }
+
+    private VoteId registerVoteId(VoteRequest voteRequest) {
         return VoteId.builder()
                 .sessionId(voteRequest.getSessionId())
                 .associateId(voteRequest.getAssociateId())
                 .build();
     }
 
-    private Vote createVote(VoteRequest voteRequest, VoteId voteId) {
+    private Vote registerVote(VoteRequest voteRequest, VoteId voteId) {
         return Vote.builder()
                 .id(voteId)
                 .voteStatus(voteRequest.getVoteStatus())

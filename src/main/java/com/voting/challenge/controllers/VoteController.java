@@ -3,6 +3,7 @@ package com.voting.challenge.controllers;
 import com.voting.challenge.dtos.VoteRequest;
 import com.voting.challenge.models.Vote;
 import com.voting.challenge.services.VoteService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +19,7 @@ public class VoteController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<Vote> createVote(
-            @RequestBody VoteRequest voteRequest) {
+            @RequestBody @Valid VoteRequest voteRequest) {
         return voteService.registerVoteAndSession(voteRequest);
     }
 }

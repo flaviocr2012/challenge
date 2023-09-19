@@ -4,6 +4,7 @@ import com.voting.challenge.dtos.SessionRequest;
 import com.voting.challenge.enums.VoteStatus;
 import com.voting.challenge.models.Session;
 import com.voting.challenge.services.SessionService;
+import jakarta.validation.Valid;
 import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,7 +25,7 @@ public class SessionController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<Session> createSession(
-            @RequestBody SessionRequest sessionRequest
+            @RequestBody @Valid SessionRequest sessionRequest
             ){
         return sessionService.createSession(sessionRequest);
     }
