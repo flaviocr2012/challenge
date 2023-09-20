@@ -25,6 +25,6 @@ public class AgendaController {
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<Agenda> createAgenda(@Valid
             @RequestBody AgendaRequest agendaRequest) {
-        return agendaService.createAgenda(agendaRequest);
+        return agendaService.registerAgenda(agendaRequest);
     }
 }

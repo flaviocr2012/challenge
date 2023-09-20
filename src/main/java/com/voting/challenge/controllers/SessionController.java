@@ -6,7 +6,6 @@ import com.voting.challenge.models.Session;
 import com.voting.challenge.services.SessionService;
 import com.voting.challenge.services.WinnerService;
 import jakarta.validation.Valid;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,7 +30,7 @@ public class SessionController {
     public ResponseEntity<Session> createSession(
             @RequestBody @Valid SessionRequest sessionRequest
             ){
-        return sessionService.createSession(sessionRequest);
+        return sessionService.registerSession(sessionRequest);
     }
 
     @GetMapping("/agendaId")

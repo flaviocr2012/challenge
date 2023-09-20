@@ -5,7 +5,6 @@ import com.voting.challenge.models.Agenda;
 import com.voting.challenge.repositories.AgendaRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +18,7 @@ public class AgendaService {
     private final ModelMapper modelMapper;
 
 
-    public ResponseEntity<Agenda> createAgenda(AgendaRequest agendaRequest) {
+    public ResponseEntity<Agenda> registerAgenda(AgendaRequest agendaRequest) {
         return Optional.ofNullable(agendaRequest)
                 .map(this::mapAgenda)
                 .map(agendaRepository::save)
