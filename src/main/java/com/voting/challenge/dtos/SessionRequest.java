@@ -8,14 +8,18 @@ import lombok.*;
 import java.time.LocalDateTime;
 
 
-public record SessionRequest() {
+@Builder
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class SessionRequest {
 
     @JsonFormat(pattern = "dd/MM/yyyy hh:mm:ss")
-    private static LocalDateTime start = LocalDateTime.now();
+    private LocalDateTime start = LocalDateTime.now();
 
     @JsonFormat(pattern = "dd/MM/yyyy hh:mm:ss")
-    private static LocalDateTime end = LocalDateTime.now().plusMinutes(10L);
+    private LocalDateTime end = LocalDateTime.now().plusMinutes(1L);
 
     @JsonProperty(value = "id_session")
-    private static Long IdSession;
+    private Long IdSession;
 }
