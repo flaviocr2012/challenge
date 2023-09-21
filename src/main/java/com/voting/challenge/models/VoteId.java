@@ -1,15 +1,15 @@
 package com.voting.challenge.models;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import jakarta.persistence.Embeddable;
+import lombok.*;
 
 import java.io.Serializable;
 
-@Data
+@EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
+@Embeddable
+@Data
 @Builder
 public class VoteId implements Serializable {
 

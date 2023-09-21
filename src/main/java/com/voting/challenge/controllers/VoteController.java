@@ -18,7 +18,7 @@ public class VoteController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<Vote> createVote(
+    public ResponseEntity<VoteRequest> createVote(
             @RequestBody @Valid VoteRequest voteRequest) {
         return voteService.registerVoteAndSession(voteRequest);
     }

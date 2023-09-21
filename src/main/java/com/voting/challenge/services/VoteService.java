@@ -10,6 +10,7 @@ import com.voting.challenge.models.VoteId;
 import com.voting.challenge.repositories.SessionRepository;
 import com.voting.challenge.repositories.VoteRepository;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -19,8 +20,9 @@ public class VoteService {
 
     private final VoteRepository voteRepository;
     private final SessionRepository sessionRepository;
+    private final ModelMapper modelMapper;
 
-    public ResponseEntity<Vote> registerVoteAndSession(VoteRequest voteRequest) {
+    public ResponseEntity<VoteRequest> registerVoteAndSession(VoteRequest voteRequest) {
         validateVoteRequest(voteRequest);
 
         var voteId = registerVoteId(voteRequest);
@@ -29,12 +31,12 @@ public class VoteService {
         vote.setSession(session);
 
         var savedVote = voteRepository.save(vote);
-        return ResponseEntity.ok(savedVote);
+        return ResponseEntity.ok(modelMapper.map(savedVote, VoteRequest.class));
     }
 
     private void validateVoteRequest(VoteRequest voteRequest) {
-        if (voteRepository.existsByAssociatedIdAndSessionId(
-                voteRequest.getAssociateId(), voteRequest.getSessionId())) {
+        if (voteRepository.existsById(voteRequest)
+                ){
             throw new VoteException(ExceptionConstant.VOTE_NOT_FOUND);
         }
     }

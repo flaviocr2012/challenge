@@ -21,5 +21,5 @@ public class SessionRequest {
     private LocalDateTime end = LocalDateTime.now().plusMinutes(1L);
 
     @JsonProperty(value = "id_session")
-    private Long IdSession;
+    private Long sessionId;
 }

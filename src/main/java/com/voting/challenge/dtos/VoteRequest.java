@@ -14,7 +14,7 @@ public class VoteRequest {
     @JsonProperty(value = "associate_Id")
     private Long associateId;
 
-    @JsonProperty(value = "session_Id")
+    @JsonProperty(value = "session")
     private Long session;
 
     @JsonProperty(value = "session_Id")

@@ -1,5 +1,6 @@
 package com.voting.challenge.repositories;
 
+import com.voting.challenge.dtos.SessionRequest;
 import com.voting.challenge.models.Session;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

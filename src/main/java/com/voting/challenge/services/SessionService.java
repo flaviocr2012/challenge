@@ -2,7 +2,6 @@ package com.voting.challenge.services;
 
 import com.voting.challenge.constants.ExceptionConstant;
 import com.voting.challenge.dtos.SessionRequest;
-import com.voting.challenge.exceptions.AgendaException;
 import com.voting.challenge.exceptions.SessionException;
 import com.voting.challenge.models.Session;
 import com.voting.challenge.repositories.SessionRepository;
@@ -12,8 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.time.chrono.ChronoLocalDateTime;
-import java.util.*;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor

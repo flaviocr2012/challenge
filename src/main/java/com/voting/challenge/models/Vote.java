@@ -15,13 +15,14 @@ import lombok.NoArgsConstructor;
 public class Vote {
 
     @EmbeddedId
+    @Column(unique = true)
     private VoteId id;
 
     @Enumerated(EnumType.STRING)
     private VoteStatus voteStatus;
 
-    @ManyToOne
-    @JoinColumn(name = "session_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "session",insertable = false, updatable = false)
     private Session session;
 
 }

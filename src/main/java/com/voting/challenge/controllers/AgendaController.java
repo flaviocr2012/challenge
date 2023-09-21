@@ -5,6 +5,7 @@ import com.voting.challenge.dtos.AgendaRequest;
 import com.voting.challenge.models.Agenda;
 import com.voting.challenge.services.AgendaService;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,14 +13,11 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(value = "/agenda")
+@RequiredArgsConstructor
 public class AgendaController {
 
     private final AgendaService agendaService;
 
-    @Autowired
-    public AgendaController(AgendaService agendaService) {
-        this.agendaService = agendaService;
-    }
 
     @PostMapping(produces = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
