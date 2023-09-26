@@ -15,6 +15,7 @@ import java.time.chrono.ChronoLocalDateTime;
 
 @RestController
 @RequestMapping("/session")
+@CrossOrigin(origins = "*", maxAge = 3600)
 public class SessionController {
 
     private final SessionService sessionService;
@@ -34,7 +35,6 @@ public class SessionController {
             ){
         return sessionService.registerSession(sessionRequest);
     }
-
     @GetMapping("/agendaId")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public ResponseEntity<VoteStatus>

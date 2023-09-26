@@ -14,10 +14,10 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping(value = "/agenda")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "*", maxAge = 3600)
 public class AgendaController {
 
     private final AgendaService agendaService;
-
 
     @PostMapping(produces = "application/json")
     @ResponseStatus(HttpStatus.CREATED)

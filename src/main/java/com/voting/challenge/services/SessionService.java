@@ -43,5 +43,6 @@ public class SessionService {
         if (now.isBefore(start) || now.isAfter(end)) {
             throw new SessionException(ExceptionConstant.SESSION_EXCEED_LIMIT);
         }
+
     }
 }

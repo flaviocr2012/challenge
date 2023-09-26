@@ -53,6 +53,13 @@
 		</dependency>
 
 
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+
+
 		<!-- https://mvnrepository.com/artifact/io.rest-assured/spring-mock-mvc -->
 		<dependency>
 			<groupId>io.rest-assured</groupId>
